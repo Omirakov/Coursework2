@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/examinerservice/java")
+@RequestMapping("/exam/java")
 public class JavaQuestionController {
 
     private final JavaQuestionService javaQuestionService;
@@ -26,7 +26,7 @@ public class JavaQuestionController {
         return javaQuestionService.remove(question);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/find")
     public Collection<Question> getAllQuestions() {
         return javaQuestionService.getAll();
     }
