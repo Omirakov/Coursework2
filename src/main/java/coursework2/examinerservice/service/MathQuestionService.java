@@ -1,19 +1,19 @@
 package coursework2.examinerservice.service;
 
 import coursework2.examinerservice.domain.Question;
-import coursework2.examinerservice.repository.JavaQuestionRepository;
+import coursework2.examinerservice.repository.MathQuestionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
-public class JavaQuestionService implements QuestionService {
+public class MathQuestionService implements QuestionService {
 
-    private final JavaQuestionRepository javaQuestionRepository;
+    private final MathQuestionRepository mathQuestionRepository;
 
-    public JavaQuestionService(JavaQuestionRepository javaQuestionRepository) {
-        this.javaQuestionRepository = javaQuestionRepository;
+    public MathQuestionService(MathQuestionRepository mathQuestionRepository) {
+        this.mathQuestionRepository = mathQuestionRepository;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class JavaQuestionService implements QuestionService {
         if (question == null) {
             throw new IllegalArgumentException("Вопрос не может быть null");
         }
-        return javaQuestionRepository.add(question);
+        return mathQuestionRepository.add(question);
     }
 
     @Override
@@ -34,17 +34,17 @@ public class JavaQuestionService implements QuestionService {
         if (question == null) {
             throw new IllegalArgumentException("Вопрос не может быть null");
         }
-        return javaQuestionRepository.remove(question);
+        return mathQuestionRepository.remove(question);
     }
 
     @Override
     public Collection<Question> getAll() {
-        return javaQuestionRepository.getAll();
+        return mathQuestionRepository.getAll();
     }
 
     @Override
     public Question getRandomQuestion() {
-        Collection<Question> all = javaQuestionRepository.getAll();
+        Collection<Question> all = mathQuestionRepository.getAll();
         if (all.isEmpty()) {
             throw new NoSuchElementException("Вопросов нет");
         }
@@ -53,3 +53,4 @@ public class JavaQuestionService implements QuestionService {
         return questionList.get(randomIndex);
     }
 }
+
