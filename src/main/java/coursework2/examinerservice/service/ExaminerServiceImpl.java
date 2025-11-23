@@ -3,18 +3,18 @@ package coursework2.examinerservice.service;
 import coursework2.examinerservice.domain.Question;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ExaminerServiceImpl implements ExaminerService {
 
-    private final QuestionService questionService;
+    private final List<QuestionService> questionServices;
 
-    public ExaminerServiceImpl(QuestionService questionService) {
-        this.questionService = questionService;
+    public ExaminerServiceImpl(List<QuestionService> questionServices) {
+        this.questionServices = new ArrayList<>(questionServices);
+        if (this.questionServices.isEmpty()) {
+            throw new IllegalStateException("Нет доступных сервисов вопросов");
+        }
     }
 
     @Override
@@ -23,16 +23,17 @@ public class ExaminerServiceImpl implements ExaminerService {
             throw new IllegalArgumentException("Количество вопросов должно быть положительным");
         }
 
-        Collection<Question> allQuestions = questionService.getAll();
-        if (allQuestions.size() < amount) {
-            throw new IllegalArgumentException("Недостаточно вопросов в базе: требуется " + amount + ", доступно " + allQuestions.size());
+        Set<Question> result = new LinkedHashSet<>();
+        List<QuestionService> shuffledServices = new ArrayList<>(questionServices);
+        Collections.shuffle(shuffledServices);
+
+        while (result.size() < amount) {
+            for (QuestionService service : shuffledServices) {
+                if (result.size() >= amount) break;
+                result.add(service.getRandomQuestion());
+            }
         }
 
-        Set<Question> randomQuestions = new HashSet<>();
-        while (randomQuestions.size() < amount) {
-            randomQuestions.add(questionService.getRandomQuestion());
-        }
-
-        return List.copyOf(randomQuestions);
+        return List.copyOf(result);
     }
 }
