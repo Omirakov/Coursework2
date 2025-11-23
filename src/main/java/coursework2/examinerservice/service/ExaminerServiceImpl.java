@@ -12,7 +12,6 @@ import java.util.Set;
 public class ExaminerServiceImpl implements ExaminerService {
 
     private final QuestionService questionService;
-    private final int QUESTIONS_COUNT = 5;
 
     public ExaminerServiceImpl(QuestionService questionService) {
         this.questionService = questionService;
@@ -20,15 +19,20 @@ public class ExaminerServiceImpl implements ExaminerService {
 
     @Override
     public Collection<Question> getQuestions(int amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Количество вопросов должно быть положительным");
+        }
+
         Collection<Question> allQuestions = questionService.getAll();
         if (allQuestions.size() < amount) {
-            throw new IllegalArgumentException("В базе не хватает вопросов");
+            throw new IllegalArgumentException("Недостаточно вопросов в базе: требуется " + amount + ", доступно " + allQuestions.size());
         }
 
         Set<Question> randomQuestions = new HashSet<>();
         while (randomQuestions.size() < amount) {
             randomQuestions.add(questionService.getRandomQuestion());
         }
+
         return List.copyOf(randomQuestions);
     }
 }
