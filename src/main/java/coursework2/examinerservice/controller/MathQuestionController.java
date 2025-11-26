@@ -1,8 +1,10 @@
 package coursework2.examinerservice.controller;
 
 import coursework2.examinerservice.domain.Question;
-import coursework2.examinerservice.service.MathQuestionService;
+import coursework2.examinerservice.service.QuestionService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.MethodNotAllowedException;
 
 import java.util.Collection;
 
@@ -10,29 +12,29 @@ import java.util.Collection;
 @RequestMapping("/exam/math")
 public class MathQuestionController {
 
-    private final MathQuestionService mathQuestionService;
+    private final QuestionService questionService;
 
-    public MathQuestionController(MathQuestionService mathQuestionService) {
-        this.mathQuestionService = mathQuestionService;
+    public MathQuestionController(@Qualifier("mathQuestionService") QuestionService questionService) {
+        this.questionService = questionService;
     }
 
     @PostMapping("/add")
     public Question addQuestion(@RequestParam String question, @RequestParam String answer) {
-        return mathQuestionService.add(question, answer);
+        throw new MethodNotAllowedException("POST", null);
     }
 
     @DeleteMapping("/remove")
     public Question removeQuestion(@RequestParam String question, @RequestParam String answer) {
-        return mathQuestionService.remove(new Question(question, answer));
+        throw new MethodNotAllowedException("DELETE", null);
     }
 
     @GetMapping("/find")
     public Collection<Question> getAllQuestions() {
-        return mathQuestionService.getAll();
+        throw new MethodNotAllowedException("GET", null);
     }
 
     @GetMapping("/random")
     public Question getRandomQuestion() {
-        return mathQuestionService.getRandomQuestion();
+        return questionService.getRandomQuestion();
     }
 }

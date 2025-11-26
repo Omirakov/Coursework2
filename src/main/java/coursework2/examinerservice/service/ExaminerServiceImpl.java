@@ -11,7 +11,7 @@ public class ExaminerServiceImpl implements ExaminerService {
     private final List<QuestionService> questionServices;
 
     public ExaminerServiceImpl(List<QuestionService> questionServices) {
-        this.questionServices = new ArrayList<>(questionServices);
+        this.questionServices = questionServices;
         if (this.questionServices.isEmpty()) {
             throw new IllegalStateException("Нет доступных сервисов вопросов");
         }

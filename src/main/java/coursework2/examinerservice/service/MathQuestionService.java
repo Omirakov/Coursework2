@@ -1,9 +1,7 @@
 package coursework2.examinerservice.service;
 
 import coursework2.examinerservice.domain.Question;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 import java.util.Collection;
 import java.util.Random;
@@ -16,23 +14,23 @@ public class MathQuestionService implements QuestionService {
     private final String[] operations = {"+", "-", "*", "/"};
 
     @Override
-    public Question add(String question, String answer) throws HttpRequestMethodNotSupportedException {
-        throw new HttpRequestMethodNotSupportedException("POST");
+    public Question add(String question, String answer) {
+        throw new UnsupportedOperationException("Добавление вопросов по математике запрещено");
     }
 
     @Override
-    public Question add(Question question) throws HttpRequestMethodNotSupportedException {
-        throw new HttpRequestMethodNotSupportedException("POST");
+    public Question add(Question question) {
+        throw new UnsupportedOperationException("Добавление вопросов по математике запрещено");
     }
 
     @Override
-    public Question remove(Question question) throws HttpRequestMethodNotSupportedException {
-        throw new HttpRequestMethodNotSupportedException("DELETE");
+    public Question remove(Question question) {
+        throw new UnsupportedOperationException("Удаление вопросов по математике запрещено");
     }
 
     @Override
-    public Collection<Question> getAll() throws HttpRequestMethodNotSupportedException {
-        throw new HttpRequestMethodNotSupportedException("GET");
+    public Collection<Question> getAll() {
+        throw new UnsupportedOperationException("Получение всех математических вопросов запрещено");
     }
 
     @Override
@@ -63,4 +61,3 @@ public class MathQuestionService implements QuestionService {
         return new Question(a + " " + op + " " + b + " = ?", String.valueOf(result));
     }
 }
-
