@@ -1,4 +1,4 @@
-package coursework2.examinerservice.service;
+package coursework2.examinerservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

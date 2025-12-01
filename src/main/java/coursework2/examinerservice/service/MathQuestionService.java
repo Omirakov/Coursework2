@@ -1,56 +1,63 @@
 package coursework2.examinerservice.service;
 
 import coursework2.examinerservice.domain.Question;
-import coursework2.examinerservice.repository.MathQuestionRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class MathQuestionService implements QuestionService {
 
-    private final MathQuestionRepository mathQuestionRepository;
-
-    public MathQuestionService(MathQuestionRepository mathQuestionRepository) {
-        this.mathQuestionRepository = mathQuestionRepository;
-    }
+    private final Random random = ThreadLocalRandom.current();
+    private final String[] operations = {"+", "-", "*", "/"};
 
     @Override
     public Question add(String question, String answer) {
-        return add(new Question(question, answer));
+        throw new UnsupportedOperationException("Добавление вопросов по математике запрещено");
     }
 
     @Override
     public Question add(Question question) {
-        if (question == null) {
-            throw new IllegalArgumentException("Вопрос не может быть null");
-        }
-        return mathQuestionRepository.add(question);
+        throw new UnsupportedOperationException("Добавление вопросов по математике запрещено");
     }
 
     @Override
     public Question remove(Question question) {
-        if (question == null) {
-            throw new IllegalArgumentException("Вопрос не может быть null");
-        }
-        return mathQuestionRepository.remove(question);
+        throw new UnsupportedOperationException("Удаление вопросов по математике запрещено");
     }
 
     @Override
     public Collection<Question> getAll() {
-        return mathQuestionRepository.getAll();
+        throw new UnsupportedOperationException("Получение всех математических вопросов запрещено");
     }
 
     @Override
     public Question getRandomQuestion() {
-        Collection<Question> all = mathQuestionRepository.getAll();
-        if (all.isEmpty()) {
-            throw new NoSuchElementException("Вопросов нет");
+        String op = operations[random.nextInt(operations.length)];
+        int a = random.nextInt(1, 11);
+        int b = random.nextInt(1, 11);
+        int result;
+
+        switch (op) {
+            case "+":
+                result = a + b;
+                break;
+            case "-":
+                result = a - b;
+                break;
+            case "*":
+                result = a * b;
+                break;
+            case "/":
+                if (b == 0) b = 1;
+                result = a / b;
+                break;
+            default:
+                result = 0;
         }
-        List<Question> questionList = new ArrayList<>(all);
-        int randomIndex = ThreadLocalRandom.current().nextInt(questionList.size());
-        return questionList.get(randomIndex);
+
+        return new Question(a + " " + op + " " + b + " = ?", String.valueOf(result));
     }
 }
-
